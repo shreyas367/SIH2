@@ -333,7 +333,7 @@ export default function DoctorDashboard() {
             </div>
             <div className="p-6 space-y-3">
               <button
-                onClick={() => router.push("/video-call/new")}
+                onClick={() => router.push("/dashboard/patient/video")}
                 className="w-full justify-start bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg"
               >
                 <Video className="h-4 w-4 inline mr-2" /> Start Video Call

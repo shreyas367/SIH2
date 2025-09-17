@@ -41,7 +41,7 @@ interface FeatureCardProps {
 }
 
 function FeatureCard({ icon: Icon, title, description, link }: FeatureCardProps) {
-  const ref = useRef(null);
+  const ref = useRef<HTMLDivElement | null>(null);
   const inView = useInView(ref, { once: true });
   const controls = useAnimation();
 
@@ -181,13 +181,19 @@ function LanguageSelector({ language, setLanguage }: { language: "en" | "pa" | "
 // ================= Navbar =================
 const navLinksKeys = ["home", "about", "contact", "schemes", "login", "signup"] as const;
 
+const routeOverrides: Record<string, string> = {
+  home: "/",
+  login: "/auth/login",
+  signup: "/auth/signup",
+};
+
 function NavLinks({ language, onClick }: { language: "en" | "pa" | "hi"; onClick?: () => void }) {
   return (
     <>
       {navLinksKeys.map((key) => (
         <Link
           key={key}
-          href={key === "home" ? "/" : `/${key}`}
+          href={routeOverrides[key] || `/${key}`}
           onClick={onClick}
           className="text-gray-700 dark:text-gray-200 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
         >
@@ -282,13 +288,14 @@ export default function Home() {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      className="min-h-screen bg-white dark:bg-gray-900 dark:text-white relative"
+      className="min-h-screen bg-white dark:bg-gray-900 dark:text-white relative bg-cover bg-center"
+      style={{ backgroundImage: "url('/image.png')" }}
     >
       {/* Language selector */}
       <LanguageSelector language={language} setLanguage={setLanguage} />
 
       {/* Navbar */}
-      <nav className="bg-white dark:bg-gray-800 shadow-md fixed w-full z-10">
+      <nav className="bg-white/90 dark:bg-gray-800/90 shadow-md fixed w-full z-10 backdrop-blur-sm">
         <div className="max-w-7xl mx-auto px-6 py-3 flex items-center justify-between">
           <Link href="/" className="text-2xl font-bold text-blue-700 dark:text-blue-400">
             ਨਭਾ ਹੈਲਥਕੇਅਰ
@@ -327,7 +334,7 @@ export default function Home() {
       </nav>
 
       {/* Hero Section */}
-      <header className="pt-32 pb-20 text-center bg-white dark:bg-gray-800 text-gray-800 dark:text-white relative overflow-hidden">
+      <header className="pt-32 pb-20 text-center bg-white/80 dark:bg-gray-800/80 text-gray-800 dark:text-white relative overflow-hidden">
         <Hero3DBackground />
         <h1 className="text-4xl md:text-5xl font-bold mb-4">{t.hero.title}</h1>
         <p className="text-lg md:text-xl max-w-2xl mx-auto mb-6 text-gray-600 dark:text-gray-300">{t.hero.desc}</p>
